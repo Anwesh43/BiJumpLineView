@@ -206,4 +206,13 @@ class BiJumpLineView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : BiJumpLineView {
+            val view : BiJumpLineView = BiJumpLineView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
