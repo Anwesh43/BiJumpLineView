@@ -20,8 +20,35 @@ val scGap : Float = 0.02f
 val delay : Long = 30
 val foreColor : Int = Color.parseColor("#3F51B5")
 val backColor : Int = Color.parseColor("#BDBDBD")
+val deg : Float = 30f
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+fun Canvas.drawBiLine(scale : Float, size : Float, paint : Paint) {
+    val sf : Float = scale.sinify()
+    for (j in 0..(lines - 1)) {
+        save()
+        rotate(deg * (1 - 2 * j) * sf)
+        drawLine(0f, 0f, 0f, size, paint)
+        restore()
+    }
+}
+
+fun Canvas.drawBJLNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = w / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    val sc1 : Float = scale.divideScale(0, 2)
+    val sc2 : Float = scale.divideScale(1, 2)
+    paint.color = foreColor
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.color = foreColor
+    save()
+    translate(gap * (i + 1), (h - size) * (1 - sc2))
+    drawBiLine(scale, size, paint)
+    restore()
+}
