@@ -46,10 +46,10 @@ fun Canvas.drawBJLNode(i : Int, scale : Float, paint : Paint) {
     val sc2 : Float = scale.divideScale(1, 2)
     paint.color = foreColor
     paint.strokeCap = Paint.Cap.ROUND
-    paint.color = foreColor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
     save()
     translate(gap * (i + 1), (h - size) * (1 - sc2))
-    drawBiLine(scale, size, paint)
+    drawBiLine(sc1, size, paint)
     restore()
 }
 
