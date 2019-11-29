@@ -183,4 +183,26 @@ class BiJumpLineView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BiJumpLineView) {
+
+        private val animator : Animator = Animator(view)
+        private val bjl : BiJumpLine = BiJumpLine(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            bjl.draw(canvas, paint)
+            animator.animate {
+                bjl.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            bjl.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
